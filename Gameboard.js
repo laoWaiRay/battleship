@@ -12,7 +12,7 @@ const Gameboard = () => {
 
   grid.forEach((row, index) => {
     row.forEach((square, index) => {
-      row[index] = { ship: null, isHit: false};
+      row[index] = { ship: null, isHit: null};
     })
   })
 
@@ -77,6 +77,7 @@ const Gameboard = () => {
 
   const receiveAttack = (coordinates, listOfShips) => {
     if (checkHit(coordinates) === true) {
+      grid[coordinates[0]][coordinates[1]].isHit = true;
       const shipName = grid[coordinates[0]][coordinates[1]].ship;
       const coordinatesList = [];
       let indexOfHit;
@@ -90,15 +91,40 @@ const Gameboard = () => {
       }
       const ship = listOfShips.find(ship => ship.name === shipName);
       ship.hit(indexOfHit);
+    } else {
+      grid[coordinates[0]][coordinates[1]].isHit = false;
     }
+  }
+
+  const getShipSquares = () => {
+    const shipSquares = [];
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (grid[i][j].ship) shipSquares.push(grid[i][j]);
+      }
+    }
+    return shipSquares;
+  }
+
+  const isGameOver = () => {
+    const shipSquares = getShipSquares();
+    let foundLiveShip;
+    shipSquares.forEach((shipSquare) => {
+      if (shipSquare.isHit === null) {
+        foundLiveShip = true;
+      }
+    })
+    if(foundLiveShip === true) return false
+    else return true
   }
 
   return {
     grid,
     place,
     checkHit,
-    receiveAttack
+    receiveAttack,
+    isGameOver
   }
 }
 
-module.exports = Gameboard;
+export default Gameboard

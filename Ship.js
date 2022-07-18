@@ -21,4 +21,4 @@ const Ship = (size, name) => {
   }
 }
 
-module.exports = Ship;
+export default Ship
