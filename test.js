@@ -40,35 +40,35 @@ test('gameboard is a 10x10 array', () => {
 })
 
 test('place a ship of size 5 at start of grid horizontally', () => {
-  const ship = Ship(5);
+  const ship = Ship(5, 'Carrier');
   const gameboard = Gameboard();
   expect(gameboard.place(ship, [0,0], 'x')).toEqual(
-   [[1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]);
+   [[{ ship:'Carrier', isHit: false }, { ship:'Carrier', isHit: false }, { ship:'Carrier', isHit: false }, { ship:'Carrier', isHit: false }, { ship:'Carrier', isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }]]);
 })
 
 test('place a ship of size 5 at start of grid vertically', () => {
-  const ship = Ship(5);
+  const ship = Ship(5, 'Carrier');
   const gameboard = Gameboard();
   expect(gameboard.place(ship, [0,0], 'y')).toEqual(
-   [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]);
+   [[{ ship:'Carrier', isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:'Carrier', isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:'Carrier', isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:'Carrier', isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:'Carrier', isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }]]);
 })
 
 // test('close to edge horizontal', () => {
@@ -83,34 +83,74 @@ test('place a ship of size 5 at start of grid vertically', () => {
 //   expect(gameboard.isCloseToEdge(ship, [9,0], 'y')).toBe(true)
 // })
 
-test('edge case: place a ship of size 5 at starting position [0,9] horizontally', () => {
-  const ship = Ship(5);
+test('edge case: place a ship of size 5 at starting position [0,8] horizontally', () => {
+  const ship = Ship(5, 'Carrier');
   const gameboard = Gameboard();
   expect(gameboard.place(ship, [0,8], 'x')).toEqual(
-   [[0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]);
+   [[{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:'Carrier', isHit: false }, { ship:'Carrier', isHit: false }, { ship:'Carrier', isHit: false }, { ship:'Carrier', isHit: false }, { ship:'Carrier', isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }]]);
 })
 
 test('edge case: place a ship of size 5 at starting position [9,9] vertically', () => {
-  const ship = Ship(5);
+  const ship = Ship(5,'Carrier');
   const gameboard = Gameboard();
   expect(gameboard.place(ship, [9,9], 'y')).toEqual(
-   [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]]);
+   [[{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:'Carrier', isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:'Carrier', isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:'Carrier', isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:'Carrier', isHit: false }],
+   [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:'Carrier', isHit: false }]]);
 })
+
+test('confirm hit', () => {
+  const ship = Ship(5,'Carrier');
+  const gameboard = Gameboard();
+  gameboard.place(ship, [9,9], 'y');
+  expect(gameboard.checkHit([9,9])).toBe(true);
+})
+
+test('confirm miss', () => {
+  const ship = Ship(5,'Carrier');
+  const gameboard = Gameboard();
+  gameboard.place(ship, [9,9], 'y');
+  expect(gameboard.checkHit([9,8])).toBe(false);
+})
+
+test('send hit data to correct ship', () => {
+  const ship1 = Ship(3);
+  const ship2 = Ship(4);
+  const ship3 = Ship(5);
+  const gameboard = Gameboard();
+  gameboard.place(ship1, [0,0], 'x');
+  gameboard.place(ship2, [9,9], 'x');
+  gameboard.place(ship3, [3,0], 'x');
+
+  gameboard.receiveAttack([0,0]);
+  expect(ship1.positions[0]).toBe(1);
+})
+
+
+
+// [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+//    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+//    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+//    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+//    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+//    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+//    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+//    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+//    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }],
+//    [{ ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }, { ship:null, isHit: false }]

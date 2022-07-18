@@ -10,6 +10,12 @@ const Gameboard = () => {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
+  grid.forEach((row, index) => {
+    row.forEach((square, index) => {
+      row[index] = { ship: null, isHit: false};
+    })
+  })
+
   const isCloseToEdge = (ship, startPosition, direction) => {
     const startingYPosition = startPosition[0];
     const startingXPosition = startPosition[1];
@@ -25,11 +31,11 @@ const Gameboard = () => {
     if(!isCloseToEdge(ship, startPosition, direction)){
       if (direction === 'x') {
         for (let i = 0; i < ship.size; i++) {
-          grid[startingYPosition][startingXPosition + i] = 1;
+          grid[startingYPosition][startingXPosition + i].ship = ship.name;
         }
       } else {
         for (let i = 0; i < ship.size; i++) {
-          grid[startingYPosition + i][startingXPosition] = 1;
+          grid[startingYPosition + i][startingXPosition].ship = ship.name;
         }
       }
     } else {
@@ -37,28 +43,39 @@ const Gameboard = () => {
         const distanceToEdge = 9 - startingXPosition;
         const remainingSpotsToPlace = ship.size - (distanceToEdge + 1);
         for (let i = 0; i <= distanceToEdge; i++) {
-          grid[startingYPosition][startingXPosition + i] = 1;
+          grid[startingYPosition][startingXPosition + i].ship = ship.name;
         }
         for (let j = 1; j <= remainingSpotsToPlace; j++) {
-          grid[startingYPosition][startingXPosition - j] = 1;
+          grid[startingYPosition][startingXPosition - j].ship = ship.name;
         }
       } else {
         const distanceToEdge = 9 - startingYPosition;
         const remainingSpotsToPlace = ship.size - (distanceToEdge + 1);
         for (let i = 0; i <= distanceToEdge; i++) {
-          grid[startingYPosition + i][startingXPosition] = 1;
+          grid[startingYPosition + i][startingXPosition].ship = ship.name;
         }
         for (let j = 1; j <= remainingSpotsToPlace; j++) {
-          grid[startingYPosition - j][startingXPosition] = 1;
+          grid[startingYPosition - j][startingXPosition].ship = ship.name;
         }
       }
     }
     return grid;
   }
 
+  const checkHit = (coordinates) => {
+    if (grid[coordinates[0]][coordinates[1]].ship) return true
+    else return false;
+  }
+
+  const receiveAttack = (coordinates) => {
+
+  }
+
   return {
     grid,
-    place
+    place,
+    checkHit,
+    receiveAttack
   }
 }
 

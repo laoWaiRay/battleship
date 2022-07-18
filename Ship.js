@@ -1,4 +1,4 @@
-const Ship = (size) => {
+const Ship = (size, name) => {
   // closure !
   let positions = [];
   for (let i = 0; i < size; i++) {
@@ -14,6 +14,7 @@ const Ship = (size) => {
 
   return {
     size,
+    name,
     positions,
     hit,
     isSunk
