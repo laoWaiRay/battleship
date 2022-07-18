@@ -67,8 +67,30 @@ const Gameboard = () => {
     else return false;
   }
 
-  const receiveAttack = (coordinates) => {
+  // return true if arrays contain the same values, otherwise return false
+  const compareArray = (array1, array2) => {
+    for (let i = 0; i < array1.length; i++) {
+      if (array1[i] !== array2[i]) return false;
+    }
+    return true;
+  }
 
+  const receiveAttack = (coordinates, listOfShips) => {
+    if (checkHit(coordinates) === true) {
+      const shipName = grid[coordinates[0]][coordinates[1]].ship;
+      const coordinatesList = [];
+      let indexOfHit;
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+          if (grid[i][j].ship === shipName) coordinatesList.push([i,j]);
+        }
+      }
+      for (let i = 0; i < coordinatesList.length; i++) {
+        if (compareArray(coordinates, coordinatesList[i])) indexOfHit = i;
+      }
+      const ship = listOfShips.find(ship => ship.name === shipName);
+      ship.hit(indexOfHit);
+    }
   }
 
   return {

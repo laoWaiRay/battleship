@@ -129,17 +129,46 @@ test('confirm miss', () => {
   expect(gameboard.checkHit([9,8])).toBe(false);
 })
 
-test('send hit data to correct ship', () => {
-  const ship1 = Ship(3);
-  const ship2 = Ship(4);
-  const ship3 = Ship(5);
+test('send hit data to correct ship (1)', () => {
+  const ship1 = Ship(3, 'Destroyer');
+  const ship2 = Ship(4, 'Battleship');
+  const ship3 = Ship(5, 'Carrier');
+  const listOfShips = [ship1, ship2, ship3];
   const gameboard = Gameboard();
   gameboard.place(ship1, [0,0], 'x');
   gameboard.place(ship2, [9,9], 'x');
   gameboard.place(ship3, [3,0], 'x');
 
-  gameboard.receiveAttack([0,0]);
+  gameboard.receiveAttack([0,0], listOfShips);
   expect(ship1.positions[0]).toBe(1);
+})
+
+test('send hit data to correct ship (2)', () => {
+  const ship1 = Ship(3, 'Destroyer');
+  const ship2 = Ship(4, 'Battleship');
+  const ship3 = Ship(5, 'Carrier');
+  const listOfShips = [ship1, ship2, ship3];
+  const gameboard = Gameboard();
+  gameboard.place(ship1, [0,0], 'x');
+  gameboard.place(ship2, [9,9], 'x');
+  gameboard.place(ship3, [3,0], 'x');
+
+  gameboard.receiveAttack([9,7], listOfShips);
+  expect(ship2.positions[1]).toBe(1);
+})
+
+test('send hit data to correct ship (3)', () => {
+  const ship1 = Ship(3, 'Destroyer');
+  const ship2 = Ship(4, 'Battleship');
+  const ship3 = Ship(5, 'Carrier');
+  const listOfShips = [ship1, ship2, ship3];
+  const gameboard = Gameboard();
+  gameboard.place(ship1, [0,0], 'x');
+  gameboard.place(ship2, [9,9], 'x');
+  gameboard.place(ship3, [3,0], 'x');
+
+  gameboard.receiveAttack([3,2], listOfShips);
+  expect(ship3.positions[2]).toBe(1);
 })
 
 
