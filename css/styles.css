@@ -37,6 +37,32 @@ h1, h2 {
 .heading-secondary {
   margin-bottom: 1.5rem;
   font-size: 3rem;
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.player-rotate-btn {
+  position: absolute;
+  top: 0;
+  right: 0rem;
+  padding: 1rem;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  color: inherit;
+  background-color: transparent;
+  border: 0;
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.player-rotate-btn:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .grid-container {
@@ -49,6 +75,7 @@ h1, h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .grid {
@@ -65,7 +92,14 @@ h1, h2 {
 }
 .square:hover {
   cursor: pointer;
+}
+
+.computer-square:hover {
   background-color: #3c6e71;
+}
+
+.shadow {
+  background-color: yellow;
 }
 
 /*# sourceMappingURL=styles.css.map */

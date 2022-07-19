@@ -118,12 +118,51 @@ const Gameboard = () => {
     else return true
   }
 
+  const renderGameboard = (isComputerPlayer = false) => {
+    if (isComputerPlayer === true) {
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++){
+          // if (gameboard.grid[i][j].ship) {
+          //   const squareElement = document.querySelector(`#computer-square-${i}${j}`);
+          //   squareElement.style.background = 'white';
+          // }
+          if (grid[i][j].isHit === true) {
+            const squareElement = document.querySelector(`#computer-square-${i}${j}`);
+            squareElement.style.background = 'green';
+          }
+          if (grid[i][j].isHit === false) {
+            const squareElement = document.querySelector(`#computer-square-${i}${j}`);
+            squareElement.style.background = 'red';
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++){
+          if (grid[i][j].ship) {
+            const squareElement = document.querySelector(`#square-${i}${j}`);
+            squareElement.style.background = 'white';
+          }
+          if (grid[i][j].isHit === true) {
+            const squareElement = document.querySelector(`#square-${i}${j}`);
+            squareElement.style.background = 'green';
+          }
+          if (grid[i][j].isHit === false) {
+            const squareElement = document.querySelector(`#square-${i}${j}`);
+            squareElement.style.background = 'red';
+          }
+        }
+      }
+    }
+  }
+
   return {
     grid,
     place,
     checkHit,
     receiveAttack,
-    isGameOver
+    isGameOver,
+    renderGameboard
   }
 }
 
