@@ -27,7 +27,6 @@ const Gameboard = () => {
   const isValidPlacement = (ship, startPosition, direction) => {
     const startingYPosition = startPosition[0];
     const startingXPosition = startPosition[1];
-
     if(!isCloseToEdge(ship, startPosition, direction)) {
       if (direction === 'x') {
         for (let i = 0; i < ship.size; i++) {

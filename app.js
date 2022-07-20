@@ -29,6 +29,9 @@ const player2 = ComputerPlayer('Player 2', gameboard2, shipList2);
 
 let cursorDirection = 'x';
 
+let turn = 1;
+
+
 
 // DOM stuff
 
@@ -108,9 +111,29 @@ const distanceToEdge = (index) => {
   }
 }
 
-const placePlayerShips = () => {
-  console.log('Place your Carrier');
-  let shipLength = 5;
+const placePlayerShip = (turn) => {
+  const playerSquares = document.querySelectorAll('.player-square');
+
+  let ship;
+
+  if (turn === 1) {
+    ship = patrol1;
+  }
+  if (turn === 2) {
+    ship = submarine1;
+  }
+  if (turn === 3) {
+    ship = destroyer1;
+  }
+  if (turn === 4) {
+    ship = battleship1;
+  }
+  if (turn === 5) {
+    ship = carrier1;
+  }
+
+  console.log(`Place your ${ship.name}`);
+  let shipLength = ship.size;
   
   playerSquares.forEach((square, index) => {
     square.addEventListener('mouseover', () => {
@@ -184,11 +207,17 @@ const placePlayerShips = () => {
       const stringCoordinates = squareNumber.split('');
       const numCoordinates = stringCoordinates.map((el) => parseInt(el));
       
-      gameboard1.place(carrier1, numCoordinates, cursorDirection);
-      gameboard1.renderGameboard();
+      if (gameboard1.isValidPlacement(ship, numCoordinates, cursorDirection)) {
+        gameboard1.place(ship, numCoordinates, cursorDirection);
+        gameboard1.renderGameboard();
+        turn++
+        removeEventListeners(playerSquares);
+        if (turn === 6) return; 
+        placePlayerShip(turn);
+      }
     });
 
-    square.addEventListener('mouseover', (e) => {
+    square.addEventListener('mouseover', (e) => {      //must be mouseover !!!
       const squareNumber = e.target.id.slice(7);
       const stringCoordinates = squareNumber.split('');
       const numCoordinates = stringCoordinates.map((el) => parseInt(el));
@@ -372,28 +401,12 @@ const placePlayerShips = () => {
   })
 }
 
-placePlayerShips()
 
+const removeEventListeners = (playerSquares) => {
+  playerSquares.forEach((oldSquare) => {
+    const newSquare = oldSquare.cloneNode(true);
+    oldSquare.parentNode.replaceChild(newSquare, oldSquare);
+  })
+}
 
-
-// const getShipSquareIndices = (gameboard) => {
-//   const shipSquareIndices = [];
-//   for (let i = 0; i < 10; i++) {
-//     for (let j = 0; j < 10; j++){
-//       if (gameboard.grid[i][j].ship) {
-//         shipSquareIndices.push([i,j]);
-//       }
-//     }
-//   }
-//   return shipSquareIndices;
-// }
-
-// const renderBoard = (shipSquareIndices) => {
-//   for (let index of shipSquareIndices) {
-//     const indexNumber = parseInt(index.join(''));
-//     const squareElement = document.querySelector(`#computer-square-${indexNumber}`);
-//     squareElement.style.background = 'white';
-//   }
-// }
-
-// renderBoard(getShipSquareIndices(gameboard2));
+placePlayerShip(1)
