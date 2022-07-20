@@ -181,7 +181,7 @@ const Gameboard = () => {
           // }
           if (grid[i][j].isHit === true) {
             const squareElement = document.querySelector(`#computer-square-${i}${j}`);
-            squareElement.classList.add('red');
+            squareElement.classList.add('green');
           }
           if (grid[i][j].isHit === false) {
             const squareElement = document.querySelector(`#computer-square-${i}${j}`);
@@ -198,6 +198,7 @@ const Gameboard = () => {
           }
           if (grid[i][j].isHit === true) {
             const squareElement = document.querySelector(`#square-${i}${j}`);
+            squareElement.classList.remove('white');
             squareElement.classList.add('green');
           }
           if (grid[i][j].isHit === false) {
