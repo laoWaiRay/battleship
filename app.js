@@ -66,53 +66,309 @@ computerSquares.forEach((square) => {
   })
 })
 
+const isCloseToEdge = (shipLength, index) => {
+  if (cursorDirection === 'x') {
+    let horizontalIndex;
+    if (index < 10) {
+      horizontalIndex = index;
+    } else {
+      horizontalIndex = parseInt(index.toString().slice(1));
+    }
+    if (horizontalIndex + shipLength > 10) return true;
+      else return false;
+  } else {
+    let verticalIndex;
+    if (index < 10) {
+      verticalIndex = 0;
+    } else {
+      verticalIndex = parseInt(index.toString().slice(0,1));
+    }
+    if (verticalIndex + shipLength > 10) return true;
+      else return false;
+  }
+}
+
+const distanceToEdge = (index) => {
+  if (cursorDirection === 'x') {
+    let horizontalIndex;
+    if (index < 10) {
+      horizontalIndex = index;
+    } else {
+      horizontalIndex = parseInt(index.toString().slice(1));
+    }
+    return 9 - horizontalIndex;
+  } else {
+    let verticalIndex;
+    if (index < 10) {
+      verticalIndex = 0;
+    } else {
+      verticalIndex = parseInt(index.toString().slice(0,1));
+    }
+    return 9 - verticalIndex;
+  }
+}
+
 const placePlayerShips = () => {
   console.log('Place your Carrier');
-
+  let shipLength = 5;
+  
   playerSquares.forEach((square, index) => {
     square.addEventListener('mouseover', () => {
-      if (cursorDirection === 'x') {
-        playerSquares[index].classList.add('shadow');
-        playerSquares[index + 1].classList.add('shadow');
-        playerSquares[index + 2].classList.add('shadow');
-        playerSquares[index + 3].classList.add('shadow');
-        playerSquares[index + 4].classList.add('shadow');
+      if(!(isCloseToEdge(shipLength, index))) {
+        if (cursorDirection === 'x') {
+          for (let i = 0; i < shipLength; i++) {         
+            playerSquares[index + i].classList.add('shadow');
+          }
+        } else {
+          for (let i = 0; i < shipLength; i++) {
+            playerSquares[index + (i * 10)].classList.add('shadow');
+          }
+        }
       } else {
-        playerSquares[index].classList.add('shadow');
-        playerSquares[index + 10].classList.add('shadow');
-        playerSquares[index + 20].classList.add('shadow');
-        playerSquares[index + 30].classList.add('shadow');
-        playerSquares[index + 40].classList.add('shadow');
-      }
+        // Edge case
+        if (cursorDirection === 'x') {
+          for (let i = 0; i < distanceToEdge(index) + 1; i++) {         
+            playerSquares[index + i].classList.add('shadow');
+          }
+          for (let j = 0; j <= shipLength - (distanceToEdge(index) + 1); j++) {
+            playerSquares[index - j].classList.add('shadow');
+          }
+        } else {
+          for (let i = 0; i < distanceToEdge(index) + 1; i++) {
+            playerSquares[index + (i * 10)].classList.add('shadow');
+          }
+          for (let j = 0; j <= shipLength - (distanceToEdge(index) + 1); j++) {
+            playerSquares[index - (j * 10)].classList.add('shadow');
+          }
+        }
+      } 
     });
   })
 
   playerSquares.forEach((square, index) => {
     square.addEventListener('mouseout', () => {
-      if (cursorDirection === 'x') {
-        playerSquares[index].classList.remove('shadow');
-        playerSquares[index + 1].classList.remove('shadow');
-        playerSquares[index + 2].classList.remove('shadow');
-        playerSquares[index + 3].classList.remove('shadow');
-        playerSquares[index + 4].classList.remove('shadow');
+      if(!(isCloseToEdge(shipLength, index))) {
+        if (cursorDirection === 'x') {
+          for (let i = 0; i < shipLength; i++) {         
+            playerSquares[index + i].classList.remove('shadow');
+          }
+        } else {
+          for (let i = 0; i < shipLength; i++) {
+            playerSquares[index + (i * 10)].classList.remove('shadow');
+          }
+        }
       } else {
-        playerSquares[index].classList.remove('shadow');
-        playerSquares[index + 10].classList.remove('shadow');
-        playerSquares[index + 20].classList.remove('shadow');
-        playerSquares[index + 30].classList.remove('shadow');
-        playerSquares[index + 40].classList.remove('shadow');
-      }
+        // Edge case
+        if (cursorDirection === 'x') {
+          for (let i = 0; i < distanceToEdge(index) + 1; i++) {         
+            playerSquares[index + i].classList.remove('shadow');
+          }
+          for (let j = 0; j <= shipLength - (distanceToEdge(index) + 1); j++) {
+            playerSquares[index - j].classList.remove('shadow');
+          }
+        } else {
+          for (let i = 0; i < distanceToEdge(index) + 1; i++) {
+            playerSquares[index + (i * 10)].classList.remove('shadow');
+          }
+          for (let j = 0; j <= shipLength - (distanceToEdge(index) + 1); j++) {
+            playerSquares[index - (j * 10)].classList.remove('shadow');
+          }
+        }
+      } 
     });
   })
 
-  playerSquares.forEach((square) => {
+  playerSquares.forEach((square, index) => {
     square.addEventListener('click', (e) => {
       const squareNumber = e.target.id.slice(7);
       const stringCoordinates = squareNumber.split('');
       const numCoordinates = stringCoordinates.map((el) => parseInt(el));
+      
       gameboard1.place(carrier1, numCoordinates, cursorDirection);
       gameboard1.renderGameboard();
-    })
+    });
+
+    square.addEventListener('mouseover', (e) => {
+      const squareNumber = e.target.id.slice(7);
+      const stringCoordinates = squareNumber.split('');
+      const numCoordinates = stringCoordinates.map((el) => parseInt(el));
+
+      if(!(isCloseToEdge(shipLength, index))) {
+        if (cursorDirection === 'x') {
+          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+            for (let i = 0; i < shipLength; i++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                squareElement = document.querySelector(`#square-0${parseInt(squareNumber) + i}`)
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) + i}`)
+              }
+              squareElement.style.background = 'grey';
+            }
+          }
+        } else {
+          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+            for (let i = 0; i < shipLength; i++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                if (i === 0) {
+                  squareElement = document.querySelector(`#square-0${parseInt(squareNumber) + (i * 10)}`)
+                } else {
+                  squareElement = document.querySelector(`#square-${parseInt(squareNumber) + (i * 10)}`)
+                }
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) + (i * 10)}`)
+              }
+              squareElement.style.background = 'grey';
+            }
+          }
+        }
+      } else {
+        // edge case
+        if (cursorDirection === 'x') {
+          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+            for (let i = 0; i < distanceToEdge(index) + 1; i++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                squareElement = document.querySelector(`#square-0${parseInt(squareNumber) + i}`)
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) + i}`)
+              }
+              squareElement.style.background = 'grey';
+            }
+            for (let j = 0; j <= shipLength - (distanceToEdge(index) + 1); j++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                squareElement = document.querySelector(`#square-0${parseInt(squareNumber) - j}`)
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) - j}`)
+              }
+              squareElement.style.background = 'grey';
+            }
+          }
+        } else {
+          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+            for (let i = 0; i < distanceToEdge(index) + 1; i++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                if (i === 0) {
+                  squareElement = document.querySelector(`#square-0${parseInt(squareNumber) + (i * 10)}`)
+                } else {
+                  squareElement = document.querySelector(`#square-${parseInt(squareNumber) + (i * 10)}`)
+                }
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) + (i * 10)}`)
+              }
+              squareElement.style.background = 'grey';
+            }
+            for (let j = 0; j <= shipLength - (distanceToEdge(index) + 1); j++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                if (j === 0) {
+                  squareElement = document.querySelector(`#square-0${parseInt(squareNumber) - (j * 10)}`)
+                } else {
+                  squareElement = document.querySelector(`#square-${parseInt(squareNumber) - (j * 10)}`)
+                }
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) - (j * 10)}`)
+              }
+              squareElement.style.background = 'grey';
+            }
+          }
+        }
+      }
+    });
+
+    square.addEventListener('mouseout', (e) => {
+      const squareNumber = e.target.id.slice(7);
+      const stringCoordinates = squareNumber.split('');
+      const numCoordinates = stringCoordinates.map((el) => parseInt(el));
+
+      if(!(isCloseToEdge(shipLength, index))) {
+        if (cursorDirection === 'x') {
+          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+            for (let i = 0; i < shipLength; i++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                squareElement = document.querySelector(`#square-0${parseInt(squareNumber) + i}`)
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) + i}`)
+              }
+              squareElement.style.background = '';
+            }
+          }
+        } else {
+          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+            for (let i = 0; i < shipLength; i++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                if (i === 0) {
+                  squareElement = document.querySelector(`#square-0${parseInt(squareNumber) + (i * 10)}`)
+                } else {
+                  squareElement = document.querySelector(`#square-${parseInt(squareNumber) + (i * 10)}`)
+                }
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) + (i * 10)}`)
+              }
+              squareElement.style.background = '';
+            }
+          }
+        }
+      } else {
+        // edge case
+        if (cursorDirection === 'x') {
+          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+            for (let i = 0; i < distanceToEdge(index) + 1; i++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                squareElement = document.querySelector(`#square-0${parseInt(squareNumber) + i}`)
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) + i}`)
+              }
+              squareElement.style.background = '';
+            }
+            for (let j = 0; j <= shipLength - (distanceToEdge(index) + 1); j++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                squareElement = document.querySelector(`#square-0${parseInt(squareNumber) - j}`)
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) - j}`)
+              }
+              squareElement.style.background = '';
+            }
+          }
+        } else {
+          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+            for (let i = 0; i < distanceToEdge(index) + 1; i++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                if (i === 0) {
+                  squareElement = document.querySelector(`#square-0${parseInt(squareNumber) + (i * 10)}`)
+                } else {
+                  squareElement = document.querySelector(`#square-${parseInt(squareNumber) + (i * 10)}`)
+                }
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) + (i * 10)}`)
+              }
+              squareElement.style.background = '';
+            }
+            for (let j = 0; j <= shipLength - (distanceToEdge(index) + 1); j++) {
+              let squareElement;
+              if (parseInt(squareNumber) < 10) {
+                if (j === 0) {
+                  squareElement = document.querySelector(`#square-0${parseInt(squareNumber) - (j * 10)}`)
+                } else {
+                  squareElement = document.querySelector(`#square-${parseInt(squareNumber) - (j * 10)}`)
+                }
+              } else {
+                squareElement = document.querySelector(`#square-${parseInt(squareNumber) - (j * 10)}`)
+              }
+              squareElement.style.background = '';
+            }
+          }
+        }
+      }
+    });
   })
 }
 

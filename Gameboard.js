@@ -23,10 +23,64 @@ const Gameboard = () => {
     else if (startingYPosition + ship.size > 10 && direction === 'y') return true
     else return false;
   }
+
+  const isValidPlacement = (ship, startPosition, direction) => {
+    const startingYPosition = startPosition[0];
+    const startingXPosition = startPosition[1];
+
+    if(!isCloseToEdge(ship, startPosition, direction)) {
+      if (direction === 'x') {
+        for (let i = 0; i < ship.size; i++) {
+          if (grid[startingYPosition][startingXPosition + i].ship) {
+            return false;
+          }
+        }
+      } else {
+        for (let i = 0; i < ship.size; i++) {
+          if (grid[startingYPosition + i][startingXPosition].ship) {
+            return false;
+          }
+        }
+      }
+      return true;
+    } else {
+      //edge case
+      if (direction === 'x') {
+        const distanceToEdge = 9 - startingXPosition;
+        const remainingSpotsToPlace = ship.size - (distanceToEdge + 1);
+        for (let i = 0; i <= distanceToEdge; i++) {
+          if (grid[startingYPosition][startingXPosition + i].ship) {
+            return false;
+          }
+        }
+        for (let j = 1; j <= remainingSpotsToPlace; j++) {
+          if (grid[startingYPosition][startingXPosition - j].ship) {
+            return false;
+          }
+        }
+      } else {
+        const distanceToEdge = 9 - startingYPosition;
+        const remainingSpotsToPlace = ship.size - (distanceToEdge + 1);
+        for (let i = 0; i <= distanceToEdge; i++) {
+          if (grid[startingYPosition + i][startingXPosition].ship) {
+            return false;
+          }
+        }
+        for (let j = 1; j <= remainingSpotsToPlace; j++) {
+          if (grid[startingYPosition - j][startingXPosition].ship) {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+  }
   
   const place = (ship, startPosition, direction) => {
     const startingYPosition = startPosition[0];
     const startingXPosition = startPosition[1];
+
+    if (isValidPlacement(ship, startPosition, direction) === false) return;
 
     if(!isCloseToEdge(ship, startPosition, direction)){
       if (direction === 'x') {
@@ -128,11 +182,11 @@ const Gameboard = () => {
           // }
           if (grid[i][j].isHit === true) {
             const squareElement = document.querySelector(`#computer-square-${i}${j}`);
-            squareElement.style.background = 'green';
+            squareElement.classList.add('red');
           }
           if (grid[i][j].isHit === false) {
             const squareElement = document.querySelector(`#computer-square-${i}${j}`);
-            squareElement.style.background = 'red';
+            squareElement.classList.add('red');
           }
         }
       }
@@ -141,15 +195,15 @@ const Gameboard = () => {
         for (let j = 0; j < 10; j++){
           if (grid[i][j].ship) {
             const squareElement = document.querySelector(`#square-${i}${j}`);
-            squareElement.style.background = 'white';
+            squareElement.classList.add('white');
           }
           if (grid[i][j].isHit === true) {
             const squareElement = document.querySelector(`#square-${i}${j}`);
-            squareElement.style.background = 'green';
+            squareElement.classList.add('green');
           }
           if (grid[i][j].isHit === false) {
             const squareElement = document.querySelector(`#square-${i}${j}`);
-            squareElement.style.background = 'red';
+            squareElement.classList.add('red');
           }
         }
       }
@@ -162,7 +216,8 @@ const Gameboard = () => {
     checkHit,
     receiveAttack,
     isGameOver,
-    renderGameboard
+    renderGameboard,
+    isValidPlacement
   }
 }
 

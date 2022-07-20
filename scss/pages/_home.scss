@@ -37,3 +37,21 @@
 .shadow{
   background-color: yellow;
 }
+
+.red{
+  background-color: red;
+}
+
+.green{
+  background-color: green;
+}
+
+.white{
+  background-color: white;
+}
+
+.grey{
+  &:hover{
+    background-color: grey;
+  } 
+}
