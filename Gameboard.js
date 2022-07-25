@@ -175,10 +175,6 @@ const Gameboard = () => {
     if (isComputerPlayer === true) {
       for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++){
-          // if (gameboard.grid[i][j].ship) {
-          //   const squareElement = document.querySelector(`#computer-square-${i}${j}`);
-          //   squareElement.style.background = 'white';
-          // }
           if (grid[i][j].isHit === true) {
             const squareElement = document.querySelector(`#computer-square-${i}${j}`);
             squareElement.classList.add('green');
@@ -210,6 +206,12 @@ const Gameboard = () => {
     }
   }
 
+  const logAttack = (coordinates) => {
+    if (checkHit(coordinates) === true) console.log('Hit!');
+    else console.log('Missed');
+  }
+
+
   return {
     grid,
     place,
@@ -217,7 +219,8 @@ const Gameboard = () => {
     receiveAttack,
     isGameOver,
     renderGameboard,
-    isValidPlacement
+    isValidPlacement,
+    logAttack
   }
 }
 

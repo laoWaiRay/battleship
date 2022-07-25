@@ -9,7 +9,10 @@ const Ship = (size, name) => {
   }
   const isSunk = () => {
     if (positions.includes(0)) return false
-    else return true;
+    else {
+      console.log(`${name} Sunk!`)
+      return true;
+    }
   }
 
   return {

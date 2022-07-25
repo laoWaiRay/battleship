@@ -15,19 +15,46 @@ const ComputerPlayer = (name, gameboard, shipList) => {
     return array[randIndex];
   }
 
+  const attack = (player, coordinates) => {
+    player.gameboard.receiveAttack(coordinates, player.shipList);
+  } 
+
   const attackRandom = (player) => {
     const attackableSquareCoordinates = findAttackableSquareCoordinates(player);
     const randSquareCoordinates = chooseRandomElement(attackableSquareCoordinates);
     player.gameboard.receiveAttack(randSquareCoordinates, player.shipList);
-    console.log(`${player.name} was attacked by ${name}`);
-    console.log(player.gameboard.grid);
+    return randSquareCoordinates;
   }
+
+  const seekValidAdjacentSquares = (coordinates, gameboard) => {
+    let y = coordinates[0];
+    let x = coordinates[1];
+    const validAdjacentSquares = [];
+    if ( y + 1 < 10) {
+      if (gameboard.grid[y + 1][x].isHit === null) validAdjacentSquares.push([y + 1, x]);
+    }
+    if ( y - 1 > -1) {
+      if (gameboard.grid[y - 1][x].isHit === null) validAdjacentSquares.push([y - 1, x]);
+    }
+    if ( x + 1 < 10) {
+      if (gameboard.grid[y][x + 1].isHit === null) validAdjacentSquares.push([y, x + 1]);
+    }
+    if ( x - 1 > -1) {
+      if (gameboard.grid[y][x - 1].isHit === null) validAdjacentSquares.push([y, x - 1]);
+    }
+
+    return validAdjacentSquares
+  }
+
+  // const attack
 
   return {
     name,
     gameboard,
     shipList,
-    attackRandom
+    attack,
+    attackRandom,
+    seekValidAdjacentSquares
   }
 }
 

@@ -9,11 +9,11 @@ const destroyer1 = Ship(3, 'destroyer');
 const submarine1 = Ship(3, 'submarine');
 const patrol1 = Ship(2, 'patrol');
 
-const carrier2 = Ship(5, 'carrier');
-const battleship2 = Ship(4, 'battleship');
-const destroyer2 = Ship(3, 'destroyer');
-const submarine2 = Ship(3, 'submarine');
-const patrol2 = Ship(2, 'patrol');
+const carrier2 = Ship(5, 'Carrier');
+const battleship2 = Ship(4, 'Battleship');
+const destroyer2 = Ship(3, 'Destroyer');
+const submarine2 = Ship(3, 'Submarine');
+const patrol2 = Ship(2, 'Patrol');
 
 const shipList1 = [carrier1, battleship1, destroyer1, submarine1, patrol1];
 const shipList2 = [carrier2, battleship2, destroyer2, submarine2, patrol2];
@@ -24,18 +24,10 @@ const gameboard2 = Gameboard();
 const player1 = Player('Player 1', gameboard1, shipList1);
 const player2 = ComputerPlayer('Player 2', gameboard2, shipList2);
 
-// gameboard1.place(battleship1, [0,0], 'x');
-// gameboard2.place(battleship2, [9,9], 'x');
-
 let cursorDirection = 'x';
-
-let turn = 1;
-
-
 
 // DOM stuff
 
-const playerSquares = document.querySelectorAll('.player-square');
 const computerSquares = document.querySelectorAll('.computer-square');
 const playerRotateBtn = document.querySelector('#player-rotate-btn');
 
@@ -45,28 +37,6 @@ playerRotateBtn.addEventListener('click', () => {
   } else {
     cursorDirection = 'x';
   }
-})
-
-computerSquares.forEach((square) => {
-  square.addEventListener('click', (e) => {
-    const squareNumber = e.target.id.slice(16);
-    const stringCoordinates = squareNumber.split('');
-    const numCoordinates = stringCoordinates.map((el) => parseInt(el));
-    if(player2.gameboard.grid[numCoordinates[0]][numCoordinates[1]].isHit === true || 
-        player2.gameboard.grid[numCoordinates[0]][numCoordinates[1]].isHit === false) return;
-    player1.attack(player2, numCoordinates);
-    gameboard2.renderGameboard(true);
-
-    if (player2.gameboard.isGameOver() === true) {
-      alert('Game Over! Player 1 Wins!')
-    } else {
-      player2.attackRandom(player1);
-      gameboard1.renderGameboard(false);
-      if (player1.gameboard.isGameOver() === true) {
-        alert('Game Over! Player 2 Wins!')
-      }
-    }
-  })
 })
 
 const isCloseToEdge = (shipLength, index) => {
@@ -111,7 +81,7 @@ const distanceToEdge = (index) => {
   }
 }
 
-const placePlayerShip = (turn) => {
+const placePlayerShips = (turn) => {
   const playerSquares = document.querySelectorAll('.player-square');
 
   let ship;
@@ -130,6 +100,52 @@ const placePlayerShip = (turn) => {
   }
   if (turn === 5) {
     ship = carrier1;
+  }
+
+  const addEventListeners = () => {
+    let validAdjacentSquares = [];
+
+    computerSquares.forEach((square) => {
+      square.addEventListener('click', (e) => {
+        const squareNumber = e.target.id.slice(16);
+        const stringCoordinates = squareNumber.split('');
+        const numCoordinates = stringCoordinates.map((el) => parseInt(el));
+        if(player2.gameboard.grid[numCoordinates[0]][numCoordinates[1]].isHit === true || 
+            player2.gameboard.grid[numCoordinates[0]][numCoordinates[1]].isHit === false) return;
+        player1.attack(player2, numCoordinates);
+        player2.gameboard.logAttack(numCoordinates);
+        if (player2.gameboard.checkHit(numCoordinates)) {
+          const ship = shipList2.find((ship) => ship.name === player2.gameboard.grid[numCoordinates[0]][numCoordinates[1]].ship);
+          ship.isSunk();
+        }
+        gameboard2.renderGameboard(true);
+    
+        if (player2.gameboard.isGameOver() === true) {
+          console.log('Game Over! Player 1 Wins!')
+        } else {
+          if (validAdjacentSquares.length === 0) {
+            const attackedCoordinates = player2.attackRandom(player1);
+            if (player1.gameboard.grid[attackedCoordinates[0]][attackedCoordinates[1]].isHit === true) {
+              validAdjacentSquares = (player2.seekValidAdjacentSquares(attackedCoordinates, player1.gameboard));
+            }
+          } else {
+            player2.attack(player1, validAdjacentSquares[0]);
+            if (player1.gameboard.grid[validAdjacentSquares[0][0]][validAdjacentSquares[0][1]].isHit === false) {
+              validAdjacentSquares.shift();
+              console.log(validAdjacentSquares)
+            } else {
+              validAdjacentSquares = [...validAdjacentSquares, ...player2.seekValidAdjacentSquares(validAdjacentSquares[0], player1.gameboard)]
+              validAdjacentSquares.shift();
+              console.log(validAdjacentSquares)
+            }
+          }
+          gameboard1.renderGameboard(false);
+            if (player1.gameboard.isGameOver() === true) {
+              console.log('Game Over! Player 2 Wins!')
+            }
+        }
+      })
+    })
   }
 
   console.log(`Place your ${ship.name}`);
@@ -212,8 +228,12 @@ const placePlayerShip = (turn) => {
         gameboard1.renderGameboard();
         turn++
         removeEventListeners(playerSquares);
-        if (turn === 6) return; 
-        placePlayerShip(turn);
+        if (turn === 6) {
+          addEventListeners();
+          console.log('Placement phase over. Take the first shot.');
+          return;
+        }; 
+        placePlayerShips(turn);
       }
     });
 
@@ -224,7 +244,7 @@ const placePlayerShip = (turn) => {
 
       if(!(isCloseToEdge(shipLength, index))) {
         if (cursorDirection === 'x') {
-          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+          if (gameboard1.isValidPlacement(ship, numCoordinates, cursorDirection) === false) {
             for (let i = 0; i < shipLength; i++) {
               let squareElement;
               if (parseInt(squareNumber) < 10) {
@@ -236,7 +256,7 @@ const placePlayerShip = (turn) => {
             }
           }
         } else {
-          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+          if (gameboard1.isValidPlacement(ship, numCoordinates, cursorDirection) === false) {
             for (let i = 0; i < shipLength; i++) {
               let squareElement;
               if (parseInt(squareNumber) < 10) {
@@ -255,7 +275,7 @@ const placePlayerShip = (turn) => {
       } else {
         // edge case
         if (cursorDirection === 'x') {
-          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+          if (gameboard1.isValidPlacement(ship, numCoordinates, cursorDirection) === false) {
             for (let i = 0; i < distanceToEdge(index) + 1; i++) {
               let squareElement;
               if (parseInt(squareNumber) < 10) {
@@ -276,7 +296,7 @@ const placePlayerShip = (turn) => {
             }
           }
         } else {
-          if (gameboard1.isValidPlacement(carrier1, numCoordinates, cursorDirection) === false) {
+          if (gameboard1.isValidPlacement(ship, numCoordinates, cursorDirection) === false) {
             for (let i = 0; i < distanceToEdge(index) + 1; i++) {
               let squareElement;
               if (parseInt(squareNumber) < 10) {
@@ -401,7 +421,6 @@ const placePlayerShip = (turn) => {
   })
 }
 
-
 const removeEventListeners = (playerSquares) => {
   playerSquares.forEach((oldSquare) => {
     const newSquare = oldSquare.cloneNode(true);
@@ -409,4 +428,39 @@ const removeEventListeners = (playerSquares) => {
   })
 }
 
-placePlayerShip(1)
+const initComputerBoard = () => {
+  const chooseRandomElement = (array) => {
+    const randIndex = Math.floor(Math.random() * array.length);
+    return array[randIndex];
+  }
+
+  shipList2.forEach((ship) => {
+    let shipIsPlaced = false;
+    const emptySpaces = [];
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (gameboard2.grid[i][j].ship === null) emptySpaces.push([i,j]);
+      }
+    }
+    let randomDirection;
+    if (Math.floor(Math.random() * 2) === 0) randomDirection = 'x'
+    else randomDirection = 'y';
+    let randomSpace = chooseRandomElement(emptySpaces);
+
+    
+    while(shipIsPlaced === false) {
+      if (gameboard2.isValidPlacement(ship, randomSpace, randomDirection)) {
+        gameboard2.place(ship, randomSpace, randomDirection);
+        shipIsPlaced = true;
+      } else {
+        randomSpace = chooseRandomElement(emptySpaces);
+        if (Math.floor(Math.random() * 2) === 0) randomDirection = 'x'
+        else randomDirection = 'y';
+      }
+    }
+  })
+}
+
+
+placePlayerShips(1)
+initComputerBoard()
