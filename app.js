@@ -132,11 +132,12 @@ const placePlayerShips = (turn) => {
             player2.attack(player1, validAdjacentSquares[0]);
             if (player1.gameboard.grid[validAdjacentSquares[0][0]][validAdjacentSquares[0][1]].isHit === false) {
               validAdjacentSquares.shift();
-              console.log(validAdjacentSquares)
             } else {
-              validAdjacentSquares = [...validAdjacentSquares, ...player2.seekValidAdjacentSquares(validAdjacentSquares[0], player1.gameboard)]
+              const newValidAdjacentSquares = player2.seekValidAdjacentSquares(validAdjacentSquares[0], player1.gameboard);
+              newValidAdjacentSquares.forEach((square) => {
+                if (!(JSON.stringify(validAdjacentSquares).includes(JSON.stringify(square)))) validAdjacentSquares.push(square);
+              })
               validAdjacentSquares.shift();
-              console.log(validAdjacentSquares)
             }
           }
           gameboard1.renderGameboard(false);
